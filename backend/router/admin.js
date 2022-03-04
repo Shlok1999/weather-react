@@ -1,12 +1,28 @@
 const router = require('express').Router()
-
+const { request } = require('express')
+const jwt = require('jsonwebtoken')
 let Admin = require('../models/admin.model')
+const User = require('../models/user.model')
 
 router.route('/').get((req, res)=>{
     Admin.find()
     .then(admins=> res.json(admins))
     .catch(err=> res.status(400).json(err))
 })
+
+// const createToken = async()=>{
+//   const token =  await jwt.sign({_id: "62224dbdfa6fcaa005c9c834"}, "mynameisshlokranjanistudyengineering",{
+//       expiresIn: "2000 seconds"
+//   })
+//   console.log(token)
+
+//   const userVerify = await jwt.verify(token,"mynameisshlokranjanistudyengineering")
+//   console.log(userVerify)
+
+// }
+
+
+// createToken();
 
 router.route('/add').post((req, res)=>{
     const username = req.body.username;
@@ -20,6 +36,25 @@ router.route('/add').post((req, res)=>{
         .then(()=> res.json('Admin added'))
         .catch(err=> res.status(400).json(err))
     }
+    else{
+        alert("Passwords dont match")
+    }
+})
+
+router.route('/login').post(async(req, res)=>{
+    //Login Logic
+    const {username, password} = req.body
+
+    const usernameID = await Admin.findOne({
+        username: username,
+        password: password
+    })
+
+    console.log(usernameID)
+})
+
+router.route('/adddata', (req, res)=>{
+    //Provide temperature data
 })
 
 module.exports = router
