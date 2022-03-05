@@ -22,8 +22,21 @@ router.route('/add').post((req, res)=>{
     }
 })
 
-router.route('/login', (req, res)=>{
-    //User Login
+router.route('/login').post(async(req, res)=>{
+    //Login Logic
+    const {username, password} = req.body
+
+    const usernameID = await User.findOne({
+        username: username,
+    })
+    if(usernameID.password === password){
+        res.status(201).json(usernameID)
+    }
+    else{
+        res.status(400).json("Wrong credentials")
+    }
+
+    // console.log(usernameID)
 })
 
 module.exports = router

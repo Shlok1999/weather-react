@@ -47,10 +47,15 @@ router.route('/login').post(async(req, res)=>{
 
     const usernameID = await Admin.findOne({
         username: username,
-        password: password
     })
+    if(usernameID.password === password){
+        res.status(201).json(usernameID)
+    }
+    else{
+        res.status(400).json("Wrong credentials")
+    }
 
-    console.log(usernameID)
+    // console.log(usernameID)
 })
 
 router.route('/adddata', (req, res)=>{
