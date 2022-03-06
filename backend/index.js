@@ -25,12 +25,13 @@ connection.once('open', ()=>{
 })
 
 
-const adminRouter = require('./router/admin')
-const userRouter = require('./router/user')
+const adminRouter = require('./router/admin.router')
+const userRouter = require('./router/user.router')
 
 
 app.use('/admin', adminRouter)
 app.use('/user', userRouter)
+
 
 app.listen(port, ()=>{
     console.log(`http://localhost:${port}`)
