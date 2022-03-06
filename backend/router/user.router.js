@@ -13,8 +13,8 @@ router.route('/signup').post((req, res)=>{
 
 
     if(password===confirmPass){
-        const newAdmin = new User({email, password, confirmPass});
-        newAdmin.save()
+        const newUser = new User({email, password, confirmPass});
+        newUser.save()
         .then(()=>res.json('New User added'))
         .catch((err)=> res.json(err))
     }
@@ -27,9 +27,9 @@ router.route('/signup').post((req, res)=>{
 
 router.route('/login').post(async(req, res, err)=>{
     const {email, password} = req.body
-    const adminEmail = await Admin.findOne({email:email})
+    const UserEmail = await User.findOne({email:email})
     
-    if(adminEmail.password === password){
+    if(UserEmail.password === password){
         res.status(200).json("User logged in")
     }
     else{

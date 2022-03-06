@@ -28,6 +28,7 @@ router.route('/signup').post((req, res)=>{
 //LOGIN
 let loggedin = false;
 router.route('/login').post(async(req, res, err)=>{
+    
     const {email, password} = req.body
     const adminEmail = await Admin.findOne({email:email})
     
@@ -43,6 +44,9 @@ router.route('/').get((req, res)=>{
     console.log('Admin Login Page')
 })
 
+router.route('/addTempData').get((req, res)=>{
+    console.log("Admin home page")
+})
 router.route('/addTempData').post((req, res)=>{
     const {date, min_temp, max_temp} = req.body
     const tempData = new TemperatureData({date, min_temp, max_temp})

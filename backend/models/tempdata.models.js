@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const temperatureSchema = new Schema({
-    date:{type: String, required: true},
+    date:{type: Date, required: true},
     min_temp: {type: Number, required: true},
     max_temp: {type: Number, required: true}
 })
