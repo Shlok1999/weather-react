@@ -52,6 +52,8 @@ export default class AdminRegd extends Component {
             password: "",
             confirmPass: ""
         })
+
+        window.location="/admin"
     }
     render() {
         return (

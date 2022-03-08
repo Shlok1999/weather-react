@@ -19,9 +19,9 @@ export default class AdminHome extends Component {
     }
 
    
-    onChangeDate(date){
+    onChangeDate(){
         this.setState({
-            date: date
+            date: new Date().getDate()+'/' + (new Date().getMonth()+1)+'/' + new Date().getFullYear(),
         })
     }
     onChangeMinTemp(e){
@@ -45,6 +45,13 @@ export default class AdminHome extends Component {
 
         axios.post('http://localhost:4000/admin/addTempData', temperData)
         .then((res)=> console.log(res.data))
+
+        alert("Tepeature data added, Check on user section")
+        this.setState({
+            min_temp: '',
+            max_temp: ''
+        })
+
     }
 
 
@@ -60,6 +67,7 @@ export default class AdminHome extends Component {
 
                 <div className="temperature-data" style={{marginTop: '50px', textAlign:'left', marginLeft: '30%', border: '0.5px solid black', width: '300px'}}>
                     <form onSubmit={this.onSubmit} style={{margin: '5px'}}>
+                    
                         <div className="mb-3">
                             <label >Minimum Temperature</label><br/>
                             <input value={this.state.min_temp} onChange={this.onChangeMinTemp} required type="Number"   />
