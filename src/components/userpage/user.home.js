@@ -3,81 +3,58 @@ import 'bootstrap'
 import axios from "axios";
 
 
-// const DataOfTemperature = props=>{
-//     <tr>
-//         <td>{props.tempdata.date}</td>
-//         <td>{props.tempdata.min_temp}</td>
-//         <td>{props.tempdata.max_temp}</td>
-//     </tr>
-// }
-
 export default class UserHome extends Component {
+    constructor() {
+        super()
 
-
-
-    
-    constructor(props) {
-        super();
         this.state = {
-            temperData: []
+            datas: []
         }
     }
 
-    componentDidMount(e) {
-        fetch('http://localhost:4000/user/getData')
-        .then(res=> res.json())
-        .then(temperData=>{
-            this.setState({temperData: temperData})
-        }).catch(err=> console.log(err))
+    async componentDidMount() {
+        const res = await axios.get('http://localhost:4000/user/getData')
+        let data = res.data
 
-    }
-
-
-    displayData(){
-        let datas = []
-        this.state.temperData.map(element=>{
-            datas.push(element)
+        this.setState({
+            datas: [...data]
         })
-        
-        return(
-            datas.map((element)=>{
-                <tr>
-                    <td>{element.date}</td>
-                    <td>{element.min_temp}</td>
-                    <td>{element.max_temp}</td>
-                </tr>
-            })
-        )
     }
-
-
-    
-
-
 
     render() {
-       
+        // let data = this.state.datas
+        // console.log(data)
         return (
             <div>
-                <h1>Temperature Data</h1>
-                <div className="sort-by-date">
+                {
+                    this.state.datas.length == 0 ?
 
-                </div>
+                        <div>Data unavailiable</div> :
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                <th>Date</th>
+                                <th>Minimum Temperature</th>
+                                <th>Maximum Temperature</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    {this.state.datas.map((ele)=>{
+                                        return (
+                                            <tr key={ele._id}>
+                                                <td>{ele.date}</td>
+                                                <td>{ele.min_temp+"°C"}</td>
+                                                <td>{ele.max_temp+"°C"}</td>
+                                            </tr>
+                                        )
+                                    })}
+                            </tbody>
+                        </table>
 
-                <table className="table my-5">
-                    <thead className="thead-light">
-                        <tr>
-                            <th>Date</th>
-                            <th>Minimum Temp(C)</th>
-                            <th>Maximum Temp(C)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                       {this.displayData()}
-                    </tbody>
-                </table>
+                }
             </div>
-
         )
+
+
     }
 }
